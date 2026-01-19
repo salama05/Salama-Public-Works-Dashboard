@@ -13,6 +13,22 @@ app.use(cors());
 app.use(express.json());
 
 import apiRoutes from './routes/api';
+import User from './models/User';
+
+const createDefaultAdmin = async () => {
+    try {
+        const userCount = await User.countDocuments();
+        if (userCount === 0) {
+            await User.create({
+                username: process.env.ADMIN_USERNAME || 'admin',
+                password: process.env.ADMIN_PASSWORD || 'admin'
+            });
+            console.log('Default admin user created: admin / admin');
+        }
+    } catch (err) {
+        console.error('Error creating default admin:', err);
+    }
+};
 
 app.use('/api', apiRoutes);
 
@@ -33,7 +49,10 @@ if (process.env.NODE_ENV === 'production') {
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/public-works-dashboard';
 
 mongoose.connect(MONGO_URI)
-    .then(() => console.log('MongoDB connected'))
+    .then(() => {
+        console.log('MongoDB connected');
+        createDefaultAdmin();
+    })
     .catch(err => console.error('MongoDB connection error:', err));
 
 app.listen(PORT, () => {
