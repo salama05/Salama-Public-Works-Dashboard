@@ -20,7 +20,7 @@ const Login = () => {
         setError('');
 
         try {
-            const { data } = await axios.post('http://localhost:5000/api/login', { username, password });
+            const { data } = await axios.post('/api/login', { username, password });
             login(data);
             navigate('/');
         } catch (err: any) {
