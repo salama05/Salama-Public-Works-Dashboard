@@ -13,13 +13,13 @@ const Layout = ({ children }: LayoutProps) => {
         <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row-reverse" dir="rtl">
             {/* Mobile Header */}
             <header className="bg-slate-900 text-white p-4 flex justify-between items-center md:hidden sticky top-0 z-30">
-                <h1 className="text-xl font-bold text-blue-500">لوحة التحكم</h1>
                 <button
                     onClick={() => setIsSidebarOpen(true)}
                     className="p-2 hover:bg-slate-800 rounded-lg transition-colors"
                 >
                     <Menu className="w-6 h-6 text-white" />
                 </button>
+                <h1 className="text-xl font-bold text-blue-500">لوحة التحكم</h1>
             </header>
 
             {/* Sidebar - Fixed Right / Mobile Drawer */}
