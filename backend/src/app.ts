@@ -19,6 +19,7 @@ const createDefaultAdmin = async () => {
     try {
         const adminUser = process.env.ADMIN_USERNAME || 'admin';
         const adminPass = process.env.ADMIN_PASSWORD || 'admin';
+        const forceReset = process.env.FORCE_ADMIN_RESET === 'true';
 
         const existingAdmin = await User.findOne({ username: adminUser });
 
@@ -28,8 +29,12 @@ const createDefaultAdmin = async () => {
                 password: adminPass
             });
             console.log(`✅ Admin user [${adminUser}] created successfully.`);
+        } else if (forceReset) {
+            existingAdmin.password = adminPass;
+            await existingAdmin.save();
+            console.log(`🔄 Admin user [${adminUser}] password reset successfully.`);
         } else {
-            console.log(`ℹ️ Admin user [${adminUser}] already exists.`);
+            console.log(`ℹ️ Admin user [${adminUser}] already exists. Set FORCE_ADMIN_RESET=true to update.`);
         }
     } catch (err) {
         console.error('❌ Error in createDefaultAdmin:', err);
