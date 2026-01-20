@@ -36,7 +36,7 @@ const createDefaultAdmin = async () => {
             console.log(`🔄 Force resetting password for: [${adminUser}]...`);
             existingAdmin.password = adminPass;
             await existingAdmin.save();
-            console.log(`✅ Admin user [${adminUser}] password reset successfully.`);
+            console.log(`✅ Admin user [${adminUser}] password reset successfully. Please login with the new password.`);
         } else {
             console.log(`ℹ️ Admin user [${adminUser}] already exists. Password not modified.`);
         }
