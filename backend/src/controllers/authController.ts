@@ -39,20 +39,30 @@ export const registerUser = async (req: Request, res: Response) => {
 
 export const loginUser = async (req: Request, res: Response) => {
     const { username, password } = req.body;
+    console.log(`🔍 Login attempt for: [${username}]`);
 
     try {
         const user = await User.findOne({ username });
 
-        if (user && (await user.comparePassword(password))) {
+        if (!user) {
+            console.log(`❌ Login failed: User [${username}] not found in database.`);
+            return res.status(401).json({ message: 'Invalid username or password' });
+        }
+
+        const isMatch = await user.comparePassword(password);
+        if (isMatch) {
+            console.log(`✅ Login successful for: [${username}]`);
             res.json({
                 _id: user._id,
                 username: user.username,
                 token: generateToken(user._id as unknown as string),
             });
         } else {
+            console.log(`❌ Login failed: Password mismatch for user [${username}].`);
             res.status(401).json({ message: 'Invalid username or password' });
         }
     } catch (error) {
+        console.error('❌ Server error during login:', error);
         res.status(500).json({ message: 'Server error', error });
     }
 };
