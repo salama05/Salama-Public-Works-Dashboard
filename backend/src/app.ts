@@ -17,17 +17,19 @@ import User from './models/User';
 
 const createDefaultAdmin = async () => {
     try {
-        const userCount = await User.countDocuments();
-        if (userCount === 0) {
-            const adminUser = process.env.ADMIN_USERNAME || 'admin';
-            const adminPass = process.env.ADMIN_PASSWORD || 'admin';
+        const adminUser = process.env.ADMIN_USERNAME || 'admin';
+        const adminPass = process.env.ADMIN_PASSWORD || 'admin';
+
+        const existingAdmin = await User.findOne({ username: adminUser });
+
+        if (!existingAdmin) {
             await User.create({
                 username: adminUser,
                 password: adminPass
             });
-            console.log(`✅ Default admin user created successfully: [${adminUser}]`);
+            console.log(`✅ Admin user [${adminUser}] created successfully.`);
         } else {
-            console.log(`ℹ️ Database already has ${userCount} users. Skipping default admin creation.`);
+            console.log(`ℹ️ Admin user [${adminUser}] already exists.`);
         }
     } catch (err) {
         console.error('❌ Error in createDefaultAdmin:', err);

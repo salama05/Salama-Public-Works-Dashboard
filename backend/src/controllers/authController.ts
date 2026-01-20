@@ -50,7 +50,7 @@ export const loginUser = async (req: Request, res: Response) => {
                 token: generateToken(user._id as unknown as string),
             });
         } else {
-            res.status(401).json({ message: 'Invalid email or password' });
+            res.status(401).json({ message: 'Invalid username or password' });
         }
     } catch (error) {
         res.status(500).json({ message: 'Server error', error });
