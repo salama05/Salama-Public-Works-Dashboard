@@ -55,8 +55,8 @@ const Dashboard = () => {
                         <Wallet className="h-4 w-4 text-blue-600" />
                     </CardHeader>
                     <CardContent>
-                        <div className={`text-2xl font-bold ${summary?.currentBalance >= 0 ? 'text-blue-900' : 'text-red-600'}`}>
-                            {summary?.currentBalance.toLocaleString()} د.ج
+                        <div className={`text-2xl font-bold ${(summary?.currentBalance || 0) >= 0 ? 'text-blue-900' : 'text-red-600'}`}>
+                            {(summary?.currentBalance || 0).toLocaleString()} د.ج
                         </div>
                         <p className="text-xs text-slate-500 mt-1">المتاح في الخزينة</p>
                     </CardContent>
@@ -69,7 +69,7 @@ const Dashboard = () => {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-red-700">
-                            {summary?.expenses.toLocaleString()} د.ج
+                            {(summary?.expenses || 0).toLocaleString()} د.ج
                         </div>
                         <p className="text-xs text-slate-500 mt-1">مصاريف عامة</p>
                     </CardContent>
@@ -82,11 +82,11 @@ const Dashboard = () => {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-slate-900">
-                            {summary?.purchases.total.toLocaleString()} د.ج
+                            {(summary?.purchases?.total || 0).toLocaleString()} د.ج
                         </div>
                         <div className="text-xs text-red-500 mt-1 flex items-center gap-1">
                             <AlertCircle className="w-3 h-3" />
-                            باقي: {summary?.purchases.remaining.toLocaleString()} د.ج
+                            باقي: {(summary?.purchases?.remaining || 0).toLocaleString()} د.ج
                         </div>
                     </CardContent>
                 </Card>
@@ -98,11 +98,11 @@ const Dashboard = () => {
                     </CardHeader>
                     <CardContent>
                         <div className="text-2xl font-bold text-slate-900">
-                            {summary?.labor.total.toLocaleString()} د.ج
+                            {(summary?.labor?.total || 0).toLocaleString()} د.ج
                         </div>
                         <div className="text-xs text-red-500 mt-1 flex items-center gap-1">
                             <AlertCircle className="w-3 h-3" />
-                            باقي: {summary?.labor.remaining.toLocaleString()} د.ج
+                            باقي: {(summary?.labor?.remaining || 0).toLocaleString()} د.ج
                         </div>
                     </CardContent>
                 </Card>
@@ -156,7 +156,7 @@ const Dashboard = () => {
                             </ResponsiveContainer>
                         </div>
                         <div className="mt-4 text-center text-sm text-slate-500">
-                            إجمالي الديون: {(summary?.purchases.remaining + summary?.labor.remaining).toLocaleString()} د.ج
+                            إجمالي الديون: {((summary?.purchases?.remaining || 0) + (summary?.labor?.remaining || 0)).toLocaleString()} د.ج
                         </div>
                     </CardContent>
                 </Card>
@@ -171,7 +171,7 @@ const Dashboard = () => {
                         </div>
                         <div>
                             <p className="text-sm font-medium text-slate-500">عدد الموردين</p>
-                            <h3 className="text-2xl font-bold text-slate-900">{summary?.counts.suppliers}</h3>
+                            <h3 className="text-2xl font-bold text-slate-900">{summary?.counts?.suppliers || 0}</h3>
                         </div>
                     </CardHeader>
                 </Card>
@@ -182,7 +182,7 @@ const Dashboard = () => {
                         </div>
                         <div>
                             <p className="text-sm font-medium text-slate-500">عدد العمال</p>
-                            <h3 className="text-2xl font-bold text-slate-900">{summary?.counts.workers}</h3>
+                            <h3 className="text-2xl font-bold text-slate-900">{summary?.counts?.workers || 0}</h3>
                         </div>
                     </CardHeader>
                 </Card>
