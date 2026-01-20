@@ -19,14 +19,18 @@ const createDefaultAdmin = async () => {
     try {
         const userCount = await User.countDocuments();
         if (userCount === 0) {
+            const adminUser = process.env.ADMIN_USERNAME || 'admin';
+            const adminPass = process.env.ADMIN_PASSWORD || 'admin';
             await User.create({
-                username: process.env.ADMIN_USERNAME || 'admin',
-                password: process.env.ADMIN_PASSWORD || 'admin'
+                username: adminUser,
+                password: adminPass
             });
-            console.log('Default admin user created: admin / admin');
+            console.log(`✅ Default admin user created successfully: [${adminUser}]`);
+        } else {
+            console.log(`ℹ️ Database already has ${userCount} users. Skipping default admin creation.`);
         }
     } catch (err) {
-        console.error('Error creating default admin:', err);
+        console.error('❌ Error in createDefaultAdmin:', err);
     }
 };
 
